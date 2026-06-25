@@ -58,11 +58,10 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background-image: url("GTA 6 1.png");
             background-position: center center;
             background-size: cover;
             background-repeat: no-repeat;
-            transition: filter 0.5s ease, background-image 1.5s ease-in-out;
+            transition: opacity 1.5s ease-in-out, filter 0.5s ease;
         }
 
         .bg-overlay {
@@ -201,20 +200,20 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 40px;
-            width: 95%;
-            max-width: 1500px;
+            gap: 20px;
+            width: 98%;
+            max-width: 1800px;
             height: auto;
             position: absolute;
-            bottom: 70px;
+            bottom: 50px;
             z-index: 2;
         }
 
         /* SIDE CARDS */
         .side-card {
             flex: 1;
-            max-width: 320px;
-            height: 480px;
+            max-width: 250px;
+            height: 400px;
             background: rgba(18, 12, 28, 0.45);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -278,6 +277,21 @@
 
         .side-card:hover .side-card-img {
             transform: scale(1.06);
+        }
+
+        /* Edition Cards Custom Sizing */
+        #edition1Card, #edition2Card {
+            height: 520px;
+        }
+
+        #edition1Card .side-card-img, #edition2Card .side-card-img {
+            object-fit: contain;
+        }
+
+        #edition1Card .side-card-img-container, #edition2Card .side-card-img-container {
+            background: transparent;
+            border: none;
+            box-shadow: none;
         }
 
         .side-card-footer {
@@ -427,6 +441,43 @@
             letter-spacing: 2px;
             margin-top: 12px;
             text-transform: uppercase;
+        }
+
+        /* PRE-ORDER BANNER */
+        .preorder-live-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: rgba(var(--accent-color-rgb), 0.15);
+            border: 2px solid var(--accent-color);
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 42px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            box-shadow: 0 0 30px rgba(var(--accent-color-rgb), 0.4), inset 0 0 20px rgba(var(--accent-color-rgb), 0.2);
+            animation: pulse-border 2s infinite;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .pulse-icon {
+            font-size: 32px;
+            animation: pulse-opacity 1s infinite alternate;
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 30px rgba(var(--accent-color-rgb), 0.4), inset 0 0 20px rgba(var(--accent-color-rgb), 0.2); }
+            50% { box-shadow: 0 0 50px rgba(var(--accent-color-rgb), 0.7), inset 0 0 30px rgba(var(--accent-color-rgb), 0.4); }
+            100% { box-shadow: 0 0 30px rgba(var(--accent-color-rgb), 0.4), inset 0 0 20px rgba(var(--accent-color-rgb), 0.2); }
+        }
+
+        @keyframes pulse-opacity {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; text-shadow: 0 0 20px #ff0000; }
         }
 
         /* SETTINGS FLOATING TOGGLE BUTTON */
@@ -853,7 +904,8 @@
 
     <!-- Background Layer -->
     <div class="bg-container">
-        <div id="bgImage" class="bg-image"></div>
+        <div id="bgImage1" class="bg-image" style="opacity: 1;"></div>
+        <div id="bgImage2" class="bg-image" style="opacity: 0;"></div>
         <div id="bgOverlay" class="bg-overlay"></div>
     </div>
 
@@ -876,47 +928,52 @@
     <!-- Main Container Layout -->
     <div class="main-layout">
 
+        <!-- Edition 1 Card -->
+        <div id="edition1Card" class="side-card">
+            <div class="side-card-label">Standard Edition</div>
+            <div class="side-card-img-container">
+                <img class="side-card-img" src="EDITION 2.png" alt="GTA 6 Standard Edition">
+            </div>
+            <div class="side-card-footer">Pre-Order Now</div>
+        </div>
+
         <!-- Left Poster Card -->
         <div id="leftCard" class="side-card">
-            <div class="side-card-label">Official Art</div>
+            <div class="side-card-label">Up Next</div>
             <div class="side-card-img-container">
-                <img class="side-card-img" src="poster_full.0az_iud2g3y4j.jpg" alt="GTA 6 Official Poster">
+                <img class="side-card-img" src="" alt="GTA 6 Slide">
             </div>
-            <div class="side-card-footer">Grand Theft Auto VI</div>
+            <div class="side-card-footer">Next In Queue</div>
         </div>
 
         <!-- Central Timer Panel -->
         <div class="center-container">
             <div id="channelName" class="logo-text">RAMGD</div>
-            <div id="countdownTopic" class="topic-text">GTA 6 PRE-ORDER COUNTDOWN</div>
+            <div id="countdownTopic" class="topic-text">ULTIMATE EDITION BENEFITS</div>
 
             <div class="timer-grid">
-                <div class="timer-card">
-                    <span id="daysBox" class="timer-number">00</span>
-                    <span class="timer-label">Days</span>
-                </div>
-                <div class="timer-card">
-                    <span id="hoursBox" class="timer-number">00</span>
-                    <span class="timer-label">Hours</span>
-                </div>
-                <div class="timer-card">
-                    <span id="minutesBox" class="timer-number">00</span>
-                    <span class="timer-label">Minutes</span>
-                </div>
-                <div class="timer-card">
-                    <span id="secondsBox" class="timer-number">00</span>
-                    <span class="timer-label">Seconds</span>
+                <div class="preorder-live-banner">
+                    <span class="pulse-icon">🔴</span> PRE-ORDER STARTED
                 </div>
             </div>
         </div>
 
         <!-- Right Video Thumbnail Card -->
         <div id="rightCard" class="side-card">
-            <div class="side-card-label">Trailer Feed</div>
+            <div class="side-card-label">Coming Soon</div>
             <div class="side-card-img-container">
-                <img class="side-card-img" src="gta 6 2.jpg" alt="GTA VI Keyart Image">
+                <img class="side-card-img" src="" alt="GTA 6 Slide">
             </div>
-            <div class="side-card-footer">Vice City Awaits</div>
+            <div class="side-card-footer">Later In Queue</div>
+        </div>
+
+        <!-- Edition 2 Card -->
+        <div id="edition2Card" class="side-card">
+            <div class="side-card-label">Ultimate Edition</div>
+            <div class="side-card-img-container">
+                <img class="side-card-img" src="EDITION.png" alt="GTA VI Ultimate Edition">
+            </div>
+            <div class="side-card-footer">Pre-Order Now</div>
         </div>
 
     </div>
@@ -968,7 +1025,7 @@
 
             <div class="form-group">
                 <label for="inputTopic">Countdown Topic</label>
-                <input type="text" id="inputTopic" class="form-input" placeholder="GTA 6 PRE-ORDER COUNTDOWN">
+                <input type="text" id="inputTopic" class="form-input" placeholder="ULTIMATE EDITION BENEFITS">
             </div>
 
             <div class="form-group">
@@ -1039,6 +1096,31 @@
                     <span id="particleVal">60</span>
                 </div>
                 <input type="range" id="inputParticles" class="range-input" min="0" max="150" value="60">
+            </div>
+
+            <div class="switch-group" style="margin-top: 5px;">
+                <span class="switch-label">Contain Images (No Crop)</span>
+                <label class="switch">
+                    <input type="checkbox" id="inputImageFit">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="range-slider-group" style="margin-top: 5px;">
+                <div class="range-slider-header">
+                    <span>Slideshow Interval (sec)</span>
+                    <span id="intervalVal">10</span>
+                </div>
+                <input type="range" id="inputInterval" class="range-input" min="3" max="30" value="10">
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                <label>Active Edition Override</label>
+                <div style="display:flex; gap:10px; margin-top:5px;">
+                    <button id="btnSetStandard" class="btn-secondary" style="flex:1; font-size: 11px;">Standard</button>
+                    <button id="btnSetUltimate" class="btn-secondary" style="flex:1; font-size: 11px;">Ultimate</button>
+                    <button id="btnSetAuto" class="btn-secondary" style="flex:1; font-size: 11px; background: rgba(255,0,127,0.3); border-color: #ff007f;">Auto</button>
+                </div>
             </div>
 
             <div class="switch-group">
@@ -1113,7 +1195,7 @@
         // Default settings config schema
         const DEFAULT_CONFIG = {
             channelName: "RAMGD",
-            countdownTopic: "GTA 6 PRE-ORDER COUNTDOWN",
+            countdownTopic: "ULTIMATE EDITION BENEFITS",
             tickerText: "🔥 WAITING FOR GTA 6 PRE-ORDER • LIVE ON RAMGD • PRE-ORDERS COMING SOON 🔥",
             targetDate: "2026-06-25T12:00",
             liveText: "LIVE",
@@ -1129,7 +1211,9 @@
             audioVolume: 50,
             audioPlaying: false,
             channelLogoUrl: "channels4_profile.jpg",
-            showChannelLogo: true
+            showChannelLogo: true,
+            slideInterval: 10,
+            imageFitContain: false
         };
 
         // Application State
@@ -1179,7 +1263,6 @@
         const leftCardEl = document.getElementById("leftCard");
         const rightCardEl = document.getElementById("rightCard");
         const bgOverlayEl = document.getElementById("bgOverlay");
-        const bgImageEl = document.getElementById("bgImage");
         const settingsBtnEl = document.getElementById("settingsBtn");
         const settingsPanelEl = document.getElementById("settingsPanel");
         const closeSettingsBtnEl = document.getElementById("closeSettingsBtn");
@@ -1202,6 +1285,9 @@
         const inputVolume = document.getElementById("inputVolume");
         const inputLogoPath = document.getElementById("inputLogoPath");
         const inputShowLogo = document.getElementById("inputShowLogo");
+        const inputImageFit = document.getElementById("inputImageFit");
+        const inputInterval = document.getElementById("inputInterval");
+        const intervalVal = document.getElementById("intervalVal");
 
         // Audio Element
         const bgAudio = document.getElementById("bgAudio");
@@ -1241,7 +1327,8 @@
             document.documentElement.style.setProperty("--bg-blur", `${config.bgBlur}px`);
 
             // Adjust dim & blur directly on background image/overlay
-            bgImageEl.style.filter = `blur(${config.bgBlur}px)`;
+            document.getElementById("bgImage1").style.filter = `blur(${config.bgBlur}px)`;
+            document.getElementById("bgImage2").style.filter = `blur(${config.bgBlur}px)`;
 
             // Particle density refresh
             initParticles(config.particleDensity);
@@ -1251,6 +1338,17 @@
             if (bgAudio.src !== getAbsoluteAudioSrc(config.audioUrl)) {
                 bgAudio.src = config.audioUrl;
             }
+
+            // Slideshow Image Fit
+            const objectFitValue = config.imageFitContain ? "contain" : "cover";
+            document.getElementById("bgImage1").style.backgroundSize = objectFitValue;
+            document.getElementById("bgImage2").style.backgroundSize = objectFitValue;
+            
+            const leftImgEl = document.querySelector("#leftCard .side-card-img");
+            if (leftImgEl) leftImgEl.style.objectFit = objectFitValue;
+            
+            const rightImgEl = document.querySelector("#rightCard .side-card-img");
+            if (rightImgEl) rightImgEl.style.objectFit = objectFitValue;
 
             // Channel Logo updates
             channelLogoContainerEl.style.display = config.showChannelLogo ? "flex" : "none";
@@ -1278,6 +1376,9 @@
             volumeVal.textContent = `${config.audioVolume}%`;
             inputLogoPath.value = config.channelLogoUrl;
             inputShowLogo.checked = config.showChannelLogo;
+            if (inputImageFit) inputImageFit.checked = config.imageFitContain;
+            if (inputInterval) inputInterval.value = config.slideInterval;
+            if (intervalVal) intervalVal.textContent = config.slideInterval;
 
             // Active Color Chip status sync
             document.querySelectorAll(".color-chip").forEach(chip => {
@@ -1368,12 +1469,19 @@
 
         inputBlur.addEventListener("input", () => {
             blurVal.textContent = `${inputBlur.value}px`;
-            bgImageEl.style.filter = `blur(${inputBlur.value}px)`;
+            document.getElementById("bgImage1").style.filter = `blur(${inputBlur.value}px)`;
+            document.getElementById("bgImage2").style.filter = `blur(${inputBlur.value}px)`;
         });
 
         inputParticles.addEventListener("input", () => {
             particleVal.textContent = inputParticles.value;
         });
+
+        if (inputInterval) {
+            inputInterval.addEventListener("input", () => {
+                intervalVal.textContent = inputInterval.value;
+            });
+        }
 
         inputVolume.addEventListener("input", () => {
             volumeVal.textContent = `${inputVolume.value}%`;
@@ -1418,9 +1526,12 @@
             config.audioVolume = parseInt(inputVolume.value);
             config.channelLogoUrl = inputLogoPath.value.trim() || DEFAULT_CONFIG.channelLogoUrl;
             config.showChannelLogo = inputShowLogo.checked;
+            if (inputImageFit) config.imageFitContain = inputImageFit.checked;
+            if (inputInterval) config.slideInterval = parseInt(inputInterval.value);
 
             saveConfig();
             applyConfig();
+            startSlideshow();
             toggleSettings();
 
             // Reload audio
@@ -1443,41 +1554,7 @@
 
 
         /* COUNTDOWN TIMER LOGIC */
-        const daysBox = document.getElementById("daysBox");
-        const hoursBox = document.getElementById("hoursBox");
-        const minutesBox = document.getElementById("minutesBox");
-        const secondsBox = document.getElementById("secondsBox");
-
-        function padZero(num) {
-            return num < 10 && num >= 0 ? "0" + num : num;
-        }
-
-        const countdownInterval = setInterval(() => {
-            if (!config.targetDate) return;
-
-            const targetTime = new Date(config.targetDate).getTime();
-            const currentTime = new Date().getTime();
-            const difference = targetTime - currentTime;
-
-            if (difference <= 0) {
-                daysBox.textContent = "00";
-                hoursBox.textContent = "00";
-                minutesBox.textContent = "00";
-                secondsBox.textContent = "00";
-                countdownTopicEl.textContent = "🎉 PRE-ORDERS ARE LIVE NOW! 🎉";
-                return;
-            }
-
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-            daysBox.textContent = padZero(days);
-            hoursBox.textContent = padZero(hours);
-            minutesBox.textContent = padZero(minutes);
-            secondsBox.textContent = padZero(seconds);
-        }, 1000);
+        // Timer removed and replaced with "PRE-ORDER STARTED" banner
 
 
         /* HTML5 CANVAS NEON EMBER PARTICLES */
@@ -1555,38 +1632,211 @@
             requestAnimationFrame(animateParticles);
         }
 
+        // Edition Override Buttons
+        // Edition Override Buttons
+        document.getElementById("btnSetStandard").addEventListener("click", () => {
+            manualEditionOverride = 'standard';
+            currentBgIndex = 0;
+            document.getElementById("btnSetStandard").style.background = "rgba(255,0,127,0.3)";
+            document.getElementById("btnSetStandard").style.borderColor = "#ff007f";
+            
+            document.getElementById("btnSetUltimate").style.background = "rgba(255,255,255,0.08)";
+            document.getElementById("btnSetUltimate").style.borderColor = "rgba(255,255,255,0.1)";
+            
+            document.getElementById("btnSetAuto").style.background = "rgba(255,255,255,0.08)";
+            document.getElementById("btnSetAuto").style.borderColor = "rgba(255,255,255,0.1)";
+            updateSlideshow(true);
+        });
+
+        document.getElementById("btnSetUltimate").addEventListener("click", () => {
+            manualEditionOverride = 'ultimate';
+            currentBgIndex = 0;
+            document.getElementById("btnSetUltimate").style.background = "rgba(255,0,127,0.3)";
+            document.getElementById("btnSetUltimate").style.borderColor = "#ff007f";
+            
+            document.getElementById("btnSetStandard").style.background = "rgba(255,255,255,0.08)";
+            document.getElementById("btnSetStandard").style.borderColor = "rgba(255,255,255,0.1)";
+            
+            document.getElementById("btnSetAuto").style.background = "rgba(255,255,255,0.08)";
+            document.getElementById("btnSetAuto").style.borderColor = "rgba(255,255,255,0.1)";
+            updateSlideshow(true);
+        });
+
+        document.getElementById("btnSetAuto").addEventListener("click", () => {
+            manualEditionOverride = 'auto';
+            currentBgIndex = 0;
+            document.getElementById("btnSetAuto").style.background = "rgba(255,0,127,0.3)";
+            document.getElementById("btnSetAuto").style.borderColor = "#ff007f";
+            
+            document.getElementById("btnSetStandard").style.background = "rgba(255,255,255,0.08)";
+            document.getElementById("btnSetStandard").style.borderColor = "rgba(255,255,255,0.1)";
+            
+            document.getElementById("btnSetUltimate").style.background = "rgba(255,255,255,0.08)";
+            document.getElementById("btnSetUltimate").style.borderColor = "rgba(255,255,255,0.1)";
+            updateSlideshow(true);
+        });
+
         // Initialize App
         loadConfig();
         applyConfig();
         animateParticles();
 
         // Slideshow Background logic
-        const bgImages = [
-            "10.png", "11.png", "12.png", "13.png", "14.png",
-            "15.png", "16.png", "17.png", "18.png", "19.png",
-            "20.png", "21.png", "22.png", "23.png", "24.png", "25.png",
-            "8.png", "9.png", "GTA 2.png", "GTA 4.png", "GTA 5.png",
-            "GTA 6 1.png", "GTA 6 3.png", "GTA 6 6.png", "GTA 6 ART.png", "GTA 7.png"
+        const standardBgImages = [
+            "VINTAGE_VICE_CITY_PACK_01.jpg",
+            "VINTAGE_VICE_CITY_PACK_02.jpg",
+            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_01.jpg",
+            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_02.jpg",
+            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_03.jpg",
+            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_04.jpg",
+            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_05.jpg",
+            "VINTAGE_VICE_CITY_PACK_VAPID_STANIER_01.jpg",
+            "VINTAGE_VICE_CITY_PACK_VAPID_STANIER_02.jpg",
+            "VINTAGE_VICE_CITY_PACK_VAPID_STANIER_03.jpg",
+            "VINTAGE_VICE_CITY_PACK_VAPID_STANIER_04.jpg",
+            "VINTAGE_VICE_CITY_WEAPON_PATTERN_01.jpg"
         ];
-        let currentBgIndex = 0;
 
-        function updateSlideshow() {
-            // Main Background
-            document.getElementById("bgImage").style.backgroundImage = `url("${bgImages[currentBgIndex]}")`;
+        const ultimateBgImages = [
+            "ULTIMATE_EDITION_01.16qc1xq5nigg1.jpg",
+            "ULTIMATE_EDITION_02.0q-6.nrtf~jj0.jpg",
+            "ULTIMATE_EDITION_ELECTRIC_FANG_01.04tsytu7qp2b-.jpg",
+            "ULTIMATE_EDITION_ELECTRIC_FANG_02.0a0h59s0zvhgc.jpg",
+            "ULTIMATE_EDITION_ELECTRIC_FANG_03.0wd4urd9xwy5..jpg",
+            "ULTIMATE_EDITION_ELECTRIC_FANG_04.0p0qga4w7y5yl.jpg",
+            "ULTIMATE_EDITION_GOODTIME_GEAR_01.0t7de8dow381q.jpg",
+            "ULTIMATE_EDITION_GROTTI_CHEETAH_01.0a.wy3s_ogjey.jpg",
+            "ULTIMATE_EDITION_GROTTI_CHEETAH_02.0rkrlsu_dg~ww.jpg",
+            "ULTIMATE_EDITION_GROTTI_CHEETAH_03.0v3_dryhtjarc.jpg",
+            "ULTIMATE_EDITION_GROTTI_CHEETAH_04.0caq_y0_f1rvt.jpg",
+            "ULTIMATE_EDITION_HAWK_AND_LITTLE_MORGAN_REVOLVERS_01.0~3pdc~~sing4.jpg",
+            "ULTIMATE_EDITION_HAWK_AND_LITTLE_MORGAN_REVOLVERS_02.04e_9jco7lluf.jpg",
+            "ULTIMATE_EDITION_ONE_EYED_WILLIE_01.0n7-__or5f.b6.jpg",
+            "ULTIMATE_EDITION_ONE_EYED_WILLIE_02.0dgnw_y_1bqao.jpg",
+            "ULTIMATE_EDITION_ONE_EYED_WILLIE_03.0mhil16bnp3m2.jpg",
+            "ULTIMATE_EDITION_PTT_STORE_01.0seuocb~7b1-q.jpg",
+            "ULTIMATE_EDITION_RIDEOUT_CUSTOMS_01.065-ms8~k8vbq.jpg",
+            "ULTIMATE_EDITION_RIDEOUT_CUSTOMS_02.0u9jg4xxbm_yd.jpg",
+            "ULTIMATE_EDITION_RIDEOUT_CUSTOMS_03.0_n4oqh5f_ar4.jpg",
+            "ULTIMATE_EDITION_SAFEHOUSE_VEHICLES_01.0wv6pw3t-mky3.jpg",
+            "ULTIMATE_EDITION_SAFEHOUSE_VEHICLES_02.0-2n5rm9n8.rq.jpg",
+            "ULTIMATE_EDITION_SAFEHOUSE_VEHICLES_03.0c9.qtpdi.tf..jpg",
+            "ULTIMATE_EDITION_SARAS_SALON_01.0gn7dwlvcgz17.jpg",
+            "ULTIMATE_EDITION_SARAS_SALON_02.170lw.lgxdghm.jpg",
+            "ULTIMATE_EDITION_SARAS_SALON_03.0w1t10_u0yv~b.jpg",
+            "ULTIMATE_EDITION_SQUALO_01.0cim7hj58ypb1.jpg",
+            "ULTIMATE_EDITION_SQUALO_02.09qplkj.rjnk7.jpg",
+            "ULTIMATE_EDITION_SQUALO_03.0quncwrsw97j1.jpg",
+            "ULTIMATE_EDITION_SQUALO_04.00vlesedwtiuy.jpg",
+            "ULTIMATE_EDITION_STOCK_305_01.0vuq0m5_1j-17.jpg",
+            "ULTIMATE_EDITION_STOCK_305_02.0va5ldrhsejht.jpg",
+            "ULTIMATE_EDITION_STOCK_305_03.00wltke54q_n0.jpg",
+            "ULTIMATE_EDITION_STOCK_305_04.0ipze9~3u6eok.jpg",
+            "ULTIMATE_EDITION_VAPID_BUGGY_01.0jxfiql~371ik.jpg",
+            "ULTIMATE_EDITION_VAPID_BUGGY_02.0tf15jp~61bkj.jpg",
+            "ULTIMATE_EDITION_VAPID_BUGGY_03.0s2rbkg98-0ac.jpg",
+            "ULTIMATE_EDITION_VAPID_BUGGY_04.0_29d.bgfvon7.jpg",
+            "ULTIMATE_EDITION_VAPID_GANADO_RETRO_BUILD_01.062dgvkwdynw5.jpg",
+            "ULTIMATE_EDITION_VICE_CITY_STYLE_01.0.u1gt~99yzks.jpg",
+            "ULTIMATE_EDITION_VICE_CITY_STYLE_02.0c-r4s-x7srt5.jpg",
+            "ULTIMATE_EDITION_VICE_CITY_STYLE_03.08.sic8sgqk4u.jpg",
+            "ULTIMATE_EDITION_VICE_CITY_STYLE_04.1572kk.expq-n.jpg",
+            "ULTIMATE_EDITION_VICE_CITY_STYLE_05.0img~prrjg.bc.jpg",
+            "ULTIMATE_EDITION_WEAPON_VARIANTS_01.12licq0_o7mb5.jpg",
+            "ULTIMATE_EDITION_WYMAN_CAR_COLLECTION_01.0swhrm__iu~6b.jpg",
+            "ULTIMATE_EDITION_WYMAN_CAR_COLLECTION_02.0_biiqjqkpg2b.jpg",
+            "ULTIMATE_EDITION_WYMAN_CAR_COLLECTION_03.0~0maq32u-4ai.jpg",
+            "ULTIMATE_EDITION_WYMAN_CAR_COLLECTION_04.05ku1csui.4h6.jpg",
+            "ULTIMATE_EDITION_WYMAN_CAR_COLLECTION_05.0e5.kdb~mrdih.jpg",
+            "ULTIMATE_EDITION_WYMAN_CAR_COLLECTION_06.0ikq3r8wnrayv.jpg"
+        ];
+        
+        const allBgImages = [...standardBgImages, ...ultimateBgImages];
+
+        let currentBgIndex = 0;
+        let activeBgElement = 1;
+        let manualEditionOverride = 'auto';
+
+        function updateSlideshow(isInit = false) {
+            let activeArray = allBgImages;
+            if (manualEditionOverride === 'standard') {
+                activeArray = standardBgImages;
+            } else if (manualEditionOverride === 'ultimate') {
+                activeArray = ultimateBgImages;
+            }
+
+            // Ensure index is within bounds (in case we just switched)
+            if (currentBgIndex >= activeArray.length) {
+                currentBgIndex = 0;
+            }
+
+            const nextIndex = isInit ? currentBgIndex : (currentBgIndex + 1) % activeArray.length;
+            if (!isInit) currentBgIndex = nextIndex;
+
+            const bg1 = document.getElementById("bgImage1");
+            const bg2 = document.getElementById("bgImage2");
+            const currentImg = activeArray[nextIndex];
+
+            // Toggle Edition Card Highlights
+            let showStandard = false;
+            
+            if (manualEditionOverride === 'standard') {
+                showStandard = true;
+            } else if (manualEditionOverride === 'ultimate') {
+                showStandard = false;
+            } else {
+                showStandard = currentImg.includes("VINTAGE_VICE_CITY");
+            }
+
+            if (showStandard) {
+                document.getElementById("edition1Card").style.visibility = "visible";
+                document.getElementById("edition1Card").style.opacity = "1";
+                
+                document.getElementById("edition2Card").style.visibility = "hidden";
+                document.getElementById("edition2Card").style.opacity = "0";
+                
+                const topicEl = document.getElementById("countdownTopic");
+                if (topicEl) topicEl.textContent = "STANDARD EDITION BENEFITS";
+            } else {
+                document.getElementById("edition1Card").style.visibility = "hidden";
+                document.getElementById("edition1Card").style.opacity = "0";
+
+                document.getElementById("edition2Card").style.visibility = "visible";
+                document.getElementById("edition2Card").style.opacity = "1";
+                
+                const topicEl = document.getElementById("countdownTopic");
+                if (topicEl) topicEl.textContent = "ULTIMATE EDITION BENEFITS";
+            }
+
+            if (isInit) {
+                bg1.style.backgroundImage = `url("${currentImg}")`;
+            } else {
+                if (activeBgElement === 1) {
+                    bg2.style.backgroundImage = `url("${activeArray[nextIndex]}")`;
+                    bg2.style.opacity = 1;
+                    bg1.style.opacity = 0;
+                    activeBgElement = 2;
+                } else {
+                    bg1.style.backgroundImage = `url("${activeArray[nextIndex]}")`;
+                    bg1.style.opacity = 1;
+                    bg2.style.opacity = 0;
+                    activeBgElement = 1;
+                }
+            }
 
             // Next Image in Left Card
-            const leftImgIndex = (currentBgIndex + 1) % bgImages.length;
+            const leftImgIndex = (currentBgIndex + 1) % activeArray.length;
             const leftImgEl = document.querySelector("#leftCard .side-card-img");
-            if (leftImgEl) leftImgEl.src = bgImages[leftImgIndex];
+            if (leftImgEl) leftImgEl.src = activeArray[leftImgIndex];
             const leftLabel = document.querySelector("#leftCard .side-card-label");
             if (leftLabel) leftLabel.textContent = "Up Next";
             const leftFooter = document.querySelector("#leftCard .side-card-footer");
             if (leftFooter) leftFooter.textContent = "Next In Queue";
 
             // Next-Next Image in Right Card
-            const rightImgIndex = (currentBgIndex + 2) % bgImages.length;
+            const rightImgIndex = (currentBgIndex + 2) % activeArray.length;
             const rightImgEl = document.querySelector("#rightCard .side-card-img");
-            if (rightImgEl) rightImgEl.src = bgImages[rightImgIndex];
+            if (rightImgEl) rightImgEl.src = activeArray[rightImgIndex];
             const rightLabel = document.querySelector("#rightCard .side-card-label");
             if (rightLabel) rightLabel.textContent = "Coming Soon";
             const rightFooter = document.querySelector("#rightCard .side-card-footer");
@@ -1594,12 +1844,17 @@
         }
 
         // Initial setup
-        updateSlideshow();
+        updateSlideshow(true);
 
-        setInterval(() => {
-            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
-            updateSlideshow();
-        }, 10000);
+        let slideIntervalId = null;
+        function startSlideshow() {
+            if (slideIntervalId) clearInterval(slideIntervalId);
+            slideIntervalId = setInterval(() => {
+                updateSlideshow();
+            }, config.slideInterval * 1000);
+        }
+        
+        startSlideshow();
 
         // Autostart audio try
         setTimeout(() => {
