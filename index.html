@@ -480,6 +480,104 @@
             100% { opacity: 1; text-shadow: 0 0 20px #ff0000; }
         }
 
+        /* FLOATING SIDE CARD */
+        .floating-card {
+            position: absolute;
+            top: 25%;
+            right: 40px;
+            width: 320px;
+            background: rgba(18, 12, 28, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(var(--accent-color-rgb), 0.6);
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), var(--neon-glow);
+            z-index: 15;
+            animation: floatUpAndDown 8s ease-in-out infinite;
+        }
+
+        @keyframes floatUpAndDown {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-120px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-card-label {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--accent-color);
+            text-shadow: var(--neon-glow);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .floating-card-img-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .floating-card-img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block;
+        }
+
+        .floating-card-desc {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            text-transform: uppercase;
+            line-height: 1.5;
+            letter-spacing: 1px;
+        }
+
+        .event-timer-grid {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .event-timer-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(var(--accent-color-rgb), 0.3);
+            border-radius: 8px;
+            padding: 8px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: inset 0 0 10px rgba(var(--accent-color-rgb), 0.1);
+        }
+
+        .event-timer-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .event-timer-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
         @keyframes flip-out {
             0% { transform: rotateX(0deg) scale(1); opacity: 1; }
             100% { transform: rotateX(90deg) scale(0.9); opacity: 0; }
@@ -940,6 +1038,29 @@
     <!-- Audio Unmute Prompt -->
     <div id="audioPrompt" class="audio-prompt" style="display: none;">
         <span class="disc-icon">💿</span> <span id="audioPromptText">Now Playing</span>
+    </div>
+
+    <!-- Floating Event Card -->
+    <div id="floatingEventCard" class="floating-card">
+        <div class="floating-card-label">SPECIAL EVENT</div>
+        <div class="floating-card-img-container">
+            <img class="floating-card-img" src="images.jpg" alt="GTA Vice City Gameplay">
+        </div>
+        <div class="floating-card-desc">GTA VICE CITY GAMEPLAY<br>LIVE STREAM STARTS IN</div>
+        <div class="event-timer-grid">
+            <div class="event-timer-card">
+                <div id="eventHours" class="event-timer-number">00</div>
+                <div class="event-timer-label">HRS</div>
+            </div>
+            <div class="event-timer-card">
+                <div id="eventMinutes" class="event-timer-number">00</div>
+                <div class="event-timer-label">MIN</div>
+            </div>
+            <div class="event-timer-card">
+                <div id="eventSeconds" class="event-timer-number">00</div>
+                <div class="event-timer-label">SEC</div>
+            </div>
+        </div>
     </div>
 
     <!-- Main Container Layout -->
@@ -1590,31 +1711,49 @@
 
 
         /* COUNTDOWN TIMER LOGIC */
+        const eventTargetDate = "2026-06-25T22:30"; // 10:30 PM independent timer
+
         function updateTimer() {
             let now = new Date().getTime();
-            let target = new Date(config.targetDate).getTime();
-            let difference = target - now;
+            let mainTarget = new Date(config.targetDate).getTime();
+            let eventTarget = new Date(eventTargetDate).getTime();
 
-            if (difference < 0) {
-                difference = 0; // Lock timer at zero
-            }
+            let mainDiff = mainTarget - now;
+            let eventDiff = eventTarget - now;
 
-            // Calculate time left
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            if (mainDiff < 0) mainDiff = 0;
+            if (eventDiff < 0) eventDiff = 0;
 
-            // Update DOM
+            // Calculate Main Time
+            const mDays = Math.floor(mainDiff / (1000 * 60 * 60 * 24));
+            const mHours = Math.floor((mainDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mMins = Math.floor((mainDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const mSecs = Math.floor((mainDiff % (1000 * 60)) / 1000);
+
+            // Update Main DOM
             const daysEl = document.getElementById("days");
             const hoursEl = document.getElementById("hours");
             const minsEl = document.getElementById("minutes");
             const secsEl = document.getElementById("seconds");
             
-            if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
-            if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
-            if (minsEl) minsEl.textContent = minutes.toString().padStart(2, '0');
-            if (secsEl) secsEl.textContent = seconds.toString().padStart(2, '0');
+            if (daysEl) daysEl.textContent = mDays.toString().padStart(2, '0');
+            if (hoursEl) hoursEl.textContent = mHours.toString().padStart(2, '0');
+            if (minsEl) minsEl.textContent = mMins.toString().padStart(2, '0');
+            if (secsEl) secsEl.textContent = mSecs.toString().padStart(2, '0');
+
+            // Calculate Event Time
+            const eHours = Math.floor(eventDiff / (1000 * 60 * 60)); // display total hours left
+            const eMins = Math.floor((eventDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const eSecs = Math.floor((eventDiff % (1000 * 60)) / 1000);
+
+            // Update Event DOM
+            const eHoursEl = document.getElementById("eventHours");
+            const eMinsEl = document.getElementById("eventMinutes");
+            const eSecsEl = document.getElementById("eventSeconds");
+
+            if (eHoursEl) eHoursEl.textContent = eHours.toString().padStart(2, '0');
+            if (eMinsEl) eMinsEl.textContent = eMins.toString().padStart(2, '0');
+            if (eSecsEl) eSecsEl.textContent = eSecs.toString().padStart(2, '0');
         }
 
         setInterval(updateTimer, 1000);
@@ -1772,18 +1911,18 @@
 
         // Slideshow Background logic
         const standardBgImages = [
-            "VINTAGE_VICE_CITY_PACK_01.jpg",
-            "VINTAGE_VICE_CITY_PACK_02.jpg",
-            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_01.jpg",
-            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_02.jpg",
-            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_03.jpg",
-            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_04.jpg",
-            "VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_05.jpg",
-            "VINTAGE_VICE_CITY_PACK_VAPID_STANIER_01.jpg",
-            "VINTAGE_VICE_CITY_PACK_VAPID_STANIER_02.jpg",
-            "VINTAGE_VICE_CITY_PACK_VAPID_STANIER_03.jpg",
-            "VINTAGE_VICE_CITY_PACK_VAPID_STANIER_04.jpg",
-            "VINTAGE_VICE_CITY_WEAPON_PATTERN_01.jpg"
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_01.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_02.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_01.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_02.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_03.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_04.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_EXCLUSIVE_LOOKS_05.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_VAPID_STANIER_01.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_VAPID_STANIER_02.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_VAPID_STANIER_03.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_PACK_VAPID_STANIER_04.jpg",
+            "../new gta 6 screenshots/VINTAGE_VICE_CITY_WEAPON_PATTERN_01.jpg"
         ];
 
         const ultimateBgImages = [
