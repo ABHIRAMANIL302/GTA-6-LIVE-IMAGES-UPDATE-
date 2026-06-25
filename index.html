@@ -480,6 +480,23 @@
             100% { opacity: 1; text-shadow: 0 0 20px #ff0000; }
         }
 
+        @keyframes flip-out {
+            0% { transform: rotateX(0deg) scale(1); opacity: 1; }
+            100% { transform: rotateX(90deg) scale(0.9); opacity: 0; }
+        }
+
+        @keyframes flip-in {
+            0% { transform: rotateX(-90deg) scale(0.9); opacity: 0; }
+            100% { transform: rotateX(0deg) scale(1); opacity: 1; }
+        }
+
+        .flip-out-anim {
+            animation: flip-out 0.4s ease-in forwards !important;
+        }
+        .flip-in-anim {
+            animation: flip-in 0.4s ease-out forwards !important;
+        }
+
         /* SETTINGS FLOATING TOGGLE BUTTON */
         .settings-toggle {
             position: absolute;
@@ -951,9 +968,28 @@
             <div id="channelName" class="logo-text">RAMGD</div>
             <div id="countdownTopic" class="topic-text">ULTIMATE EDITION BENEFITS</div>
 
-            <div class="timer-grid">
-                <div class="preorder-live-banner">
+            <div style="perspective: 1000px; margin-bottom: 20px;">
+                <div class="preorder-live-banner" id="flippingBanner" style="font-size: 28px;">
                     <span class="pulse-icon">🔴</span> PRE-ORDER STARTED
+                </div>
+            </div>
+
+            <div class="timer-grid" id="timerContainer">
+                <div class="timer-card">
+                    <div id="days" class="timer-number">00</div>
+                    <div class="timer-label">DAYS</div>
+                </div>
+                <div class="timer-card">
+                    <div id="hours" class="timer-number">00</div>
+                    <div class="timer-label">HOURS</div>
+                </div>
+                <div class="timer-card">
+                    <div id="minutes" class="timer-number">00</div>
+                    <div class="timer-label">MINUTES</div>
+                </div>
+                <div class="timer-card">
+                    <div id="seconds" class="timer-number">00</div>
+                    <div class="timer-label">SECONDS</div>
                 </div>
             </div>
         </div>
@@ -987,8 +1023,8 @@
     <div class="footer-ticker-container">
         <div class="ticker-wrap">
             <div id="marqueeTicker" class="ticker">
-                <span>🔥 WAITING FOR GTA 6 PRE-ORDER • LIVE ON RAMGD • PRE-ORDERS COMING SOON 🔥</span>
-                <span>🔥 WAITING FOR GTA 6 PRE-ORDER • LIVE ON RAMGD • PRE-ORDERS COMING SOON 🔥</span>
+                <span>🔥 PRE-ORDER STARTED • LIVE ON RAMGD • COUNTDOWN FOR NEXT GTA 6 SCREENSHOTS 🔥</span>
+                <span>🔥 PRE-ORDER STARTED • LIVE ON RAMGD • COUNTDOWN FOR NEXT GTA 6 SCREENSHOTS 🔥</span>
             </div>
         </div>
     </div>
@@ -1196,8 +1232,8 @@
         const DEFAULT_CONFIG = {
             channelName: "RAMGD",
             countdownTopic: "ULTIMATE EDITION BENEFITS",
-            tickerText: "🔥 WAITING FOR GTA 6 PRE-ORDER • LIVE ON RAMGD • PRE-ORDERS COMING SOON 🔥",
-            targetDate: "2026-06-25T12:00",
+            tickerText: "🔥 PRE-ORDER STARTED • LIVE ON RAMGD • COUNTDOWN FOR NEXT GTA 6 SCREENSHOTS 🔥",
+            targetDate: "2026-06-25T18:30",
             liveText: "LIVE",
             accentColor: "#ff007f",
             accentColorRgb: "255,0,127",
@@ -1554,7 +1590,60 @@
 
 
         /* COUNTDOWN TIMER LOGIC */
-        // Timer removed and replaced with "PRE-ORDER STARTED" banner
+        function updateTimer() {
+            let now = new Date().getTime();
+            let target = new Date(config.targetDate).getTime();
+            let difference = target - now;
+
+            if (difference < 0) {
+                difference = 0; // Lock timer at zero
+            }
+
+            // Calculate time left
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            // Update DOM
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minsEl = document.getElementById("minutes");
+            const secsEl = document.getElementById("seconds");
+            
+            if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
+            if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
+            if (minsEl) minsEl.textContent = minutes.toString().padStart(2, '0');
+            if (secsEl) secsEl.textContent = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Banner Flip Logic
+        const flippingBanner = document.getElementById("flippingBanner");
+        let isPreorderState = true;
+
+        setInterval(() => {
+            if (!flippingBanner) return;
+            
+            // Start flip out
+            flippingBanner.classList.remove("flip-in-anim");
+            flippingBanner.classList.add("flip-out-anim");
+            
+            setTimeout(() => {
+                isPreorderState = !isPreorderState;
+                if (isPreorderState) {
+                    flippingBanner.innerHTML = '<span class="pulse-icon">🔴</span> PRE-ORDER STARTED';
+                } else {
+                    flippingBanner.innerHTML = '<span class="pulse-icon">📸</span> COUNTDOWN FOR NEXT SCREENSHOTS';
+                }
+                
+                // Flip in
+                flippingBanner.classList.remove("flip-out-anim");
+                flippingBanner.classList.add("flip-in-anim");
+            }, 400); // Wait for half flip
+        }, 5000); // Toggle every 5 seconds
 
 
         /* HTML5 CANVAS NEON EMBER PARTICLES */
